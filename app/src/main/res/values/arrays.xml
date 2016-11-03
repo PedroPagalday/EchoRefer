@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="drawer_icons">
+        <item>@drawable/ic_directions_bus_white_24dp</item>
+        <item>@drawable/ic_feedback_white_24dp</item>
+        <item>@drawable/ic_today_white_24dp</item>
+        <item>@drawable/ic_settings_white_24dp</item>
+        <item>@drawable/ic_exit_to_app_white_24dp</item>
+    </string-array>
+    <string-array name="drawer_items">
+        <item>Vehicles</item>
+        <item>Feedback</item>
+        <item>Daily Report</item>
+        <item>Settings</item>
+        <item>Sign Out</item>
+    </string-array>
+
+    <string-array name="yesno">
+        <item>-- Choose One --</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="why_off">
+        <item>-- Select One --</item>
+        <item>Repairs and Servicing</item>
+        <item>Accident</item>
+        <item>Impounded by police</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="new_driver">
+        <item>-- Select One --</item>
+        <item>Yes, quit voluntarily and permanently</item>
+        <item>Yes, fired</item>
+        <item>No</item>
+    </string-array>
+</resources>

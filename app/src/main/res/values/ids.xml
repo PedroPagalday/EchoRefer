@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="api_response_type_sync" type="id"/>
+    <item name="api_response_type_suggest" type="id"/>
+    <item name="api_response_type_rt_sync" type="id"/>
+    <item name="api_response_type_op_authenticate" type="id"/>
+    <item name="tag_id" type="id"/>
+    <item name="tag_key" type="id"/>
+    <item name="tag_keypad_num" type="id"/>
+
+</resources>

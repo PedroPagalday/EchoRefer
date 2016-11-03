@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="SMTheme" parent="@style/Theme.AppCompat">
+        <item name="android:actionBarStyle">@style/AB</item>
+        <item name="android:actionBarTabStyle">@style/ABTab</item>
+        <item name="android:actionBarTabTextStyle">@style/ABTabText</item>
+        <item name="android:actionMenuTextColor">@color/actionbar_text</item>
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryDark">@color/primary_color_dark</item>
+        <item name="colorAccent">@color/accent_material_dark</item>
+        <item name="android:spinnerItemStyle">@style/TextViewSpinnerItem</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/AB</item>
+        <item name="actionBarTabStyle">@style/ABTab</item>
+        <item name="actionBarTabTextStyle">@style/ABTabText</item>
+        <item name="actionMenuTextColor">@color/actionbar_text</item>
+    </style>
+
+    <style name="SMTheme.NoActionBar">
+        <!-- Both of these are needed -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="SMTheme.Dialog" parent="@android:style/Theme.Dialog"></style>
+</resources>

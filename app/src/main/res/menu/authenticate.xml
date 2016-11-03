@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fc="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/i_about"
+        fc:showAsAction="always"
+        android:icon="@drawable/ic_info"
+        android:title="About this App"/>
+
+    <item
+        android:id="@+id/i_forgot"
+        android:icon="@drawable/ic_action_action_report_problem"
+        android:title="Forgot Password"/>
+
+
+           
+</menu>

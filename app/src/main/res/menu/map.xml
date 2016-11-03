@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fc="http://schemas.android.com/apk/res-auto" >
+
+  
+    <item
+        android:id="@+id/i_choose_route"
+        fc:showAsAction="always|withText"
+        android:title="Select Route"/>
+<item
+        android:id="@+id/i_refresh_rt"
+        android:icon="@drawable/ic_refresh"
+        fc:showAsAction="always|withText"
+        android:title="Refresh"/>
+</menu>

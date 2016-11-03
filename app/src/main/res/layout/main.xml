@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <include layout="@layout/toolbar" >
+    </include>
+
+    <Button
+        android:text="Campaign List"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/campaign_btn"
+        android:onClick="openCampaigns"
+        android:layout_weight="0.07" />
+
+    <Button
+        android:text="Register Serial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reg_serial_btn"
+        android:onClick="openSerials"
+        android:layout_weight="0.07" />
+
+</LinearLayout>

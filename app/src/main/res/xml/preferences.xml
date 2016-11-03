@@ -1,0 +1,84 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Event Preferences" android:key="NP">
+        <CheckBoxPreference
+            android:key="ACCEL_FEED"
+            android:summary="Show acceleration events in the feed?"
+            android:defaultValue="true"
+            android:title="Acceleration Events in Feed" />
+        <CheckBoxPreference
+            android:key="ACCEL_PUSH"
+            android:summary="Receive notifications for acceleration events?"
+            android:defaultValue="true"
+            android:title="Acceleration Event Notifications" />
+        <CheckBoxPreference
+            android:key="BRAKE_FEED"
+            android:summary="Show braking events in the feed?"
+            android:defaultValue="true"
+            android:title="Heavy Braking Events in Feed" />
+        <CheckBoxPreference
+            android:key="BRAKE_PUSH"
+            android:summary="Receive notifications for heavy braking events?"
+            android:defaultValue="true"
+            android:title="Heavy Braking Event Notifications" />
+        <CheckBoxPreference
+            android:key="SPEED_FEED"
+            android:summary="Show speeding events in the feed?"
+            android:defaultValue="true"
+            android:title="Overspeeding Events in Feed" />
+        <CheckBoxPreference
+            android:key="SPEED_PUSH"
+            android:summary="Receive notifications for overspeeding events?"
+            android:defaultValue="true"
+            android:title="Overspeeding Event Notifications" />
+        <CheckBoxPreference
+            android:key="IGN_FEED"
+            android:summary="Show ignition events in the feed?"
+            android:defaultValue="true"
+            android:title="Ignition Events in Feed" />
+        <CheckBoxPreference
+            android:key="IGN_PUSH"
+            android:summary="Receive notifications for ignition events?"
+            android:defaultValue="true"
+            android:title="Ignition Event Notifications" />
+        <CheckBoxPreference
+            android:key="ARR_FEED"
+            android:summary="Show arrival events in the feed?"
+            android:defaultValue="true"
+            android:title="Arrival Events in Feed" />
+        <CheckBoxPreference
+            android:key="ARR_PUSH"
+            android:summary="Receive notifications for arrival events?"
+            android:defaultValue="true"
+            android:title="Arrival Event Notifications" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Daily Report Preferences" android:key="NSV">
+        <CheckBoxPreference
+            android:key="NSV_REMINDER"
+            android:summary="Do you want to get a reminder to submit the daily report?"
+            android:defaultValue="true"
+            android:title="Report Reminder" />
+        <org.echomobile.matatu.refer.widgets.TimePreference
+            android:key="NSV_REMINDER_TIME"
+            android:summary="What time do you want to receive reminders?"
+            android:defaultValue="22:00"
+            android:title="Reminder Time" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Account Settings" >
+        <Preference
+            android:key="CHANGE_PW"
+            android:summary="Click here to change password"
+            android:title="Change Password" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="About" >
+        <Preference
+            android:key="ABOUT"
+            android:summary="@string/about_detail"
+            android:title="@string/about" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

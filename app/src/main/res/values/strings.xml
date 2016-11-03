@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Echo Refer</string>
+    <string name="about">Echo Mobile</string>
+    <string name="app_label">Echo Refer</string>
+    <string name="settings_text">Settings</string>
+    <string name="refresh_text">Refresh</string>
+    <string name="about_detail">This app is distributed as part of a pilot project and is a collaboration between Echo Mobile (www.echomobile.org) and UC Berkeley.</string>
+    <string name="follow">Follow Us</string>
+    <string name="follow_detail">Follow @echo_mobi</string>
+    <string name="about_text">Welcome to Echo Refer!</string>
+    <string name="clear_data">Clear Data &amp; Sync</string>
+    <string name="feedback_prompt">We want to hear your feedback. Type a message below to send a question/comment/issue to our support team.</string>
+    <string name="map_tab">Map</string>
+    <string name="feed_tab">Feed</string>
+    <string name="summary_tab">Summary</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string-array name="history_granularity">
+        <item>Every Minute</item>
+        <item>Every Hour</item>
+    </string-array>
+
+    <string-array name="time">
+        <item>00:00 AM</item>
+        <item>01:00 AM</item>
+        <item>02:00 AM</item>
+        <item>03:00 AM</item>
+        <item>04:00 AM</item>
+        <item>05:00 AM</item>
+        <item>06:00 AM</item>
+        <item>07:00 AM</item>
+        <item>08:00 AM</item>
+        <item>09:00 AM</item>
+        <item>10:00 AM</item>
+        <item>11:00 AM</item>
+        <item>12:00 PM</item>
+        <item>13:00 PM</item>
+        <item>14:00 PM</item>
+        <item>15:00 PM</item>
+        <item>16:00 PM</item>
+        <item>17:00 PM</item>
+        <item>18:00 PM</item>
+        <item>19:00 PM</item>
+        <item>20:00 PM</item>
+        <item>21:00 PM</item>
+        <item>22:00 PM</item>
+        <item>23:00 PM</item>
+    </string-array>
+    <string name="title_activity_serial_registration">SerialRegistration</string>
+
+</resources>
