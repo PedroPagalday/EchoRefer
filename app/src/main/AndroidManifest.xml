@@ -35,7 +35,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <uses-feature
         android:name="android.hardware.telephony"
@@ -43,8 +43,6 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-
-
 
     <application
         android:name=".App"
@@ -70,6 +68,7 @@
             android:name=".AuthenticateActivity"
             android:label="Echo Refer Login" />
 
+
         <provider
             android:name=".contentprovider.MyProvider"
             android:authorities="org.echomobile.refer.contentprovider.MyProvider"
@@ -84,17 +83,6 @@
             android:value="22878739a53ea4b03ba22e5331e9d339859464a3" />
 
         <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <!-- Support pre-kitkat -->
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="org.echomobile.refer" />
-            </intent-filter>
-        </receiver>
-        <receiver
             android:name=".receivers.BootReceiver"
             android:enabled="false">
             <intent-filter>
@@ -103,7 +91,7 @@
         </receiver>
         <receiver android:name=".receivers.SmsReceiver">
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
                 <action android:name="android.permission.READ_SMS" />
             </intent-filter>
         </receiver>
@@ -111,7 +99,15 @@
         <activity android:name=".Campaign" />
         <activity
             android:name=".SerialRegistration"
-            android:label="@string/title_activity_serial_registration"></activity>
+            android:label="@string/title_activity_serial_registration" />
+        <activity
+            android:name=".OTPValidation"
+            android:label="@string/title_activity_otpvalidation">
+            <intent-filter><action android:name="android.permission.READ_PHONE_STATE"></action></intent-filter>
+        </activity>
+
+
+
     </application>
 
 </manifest>

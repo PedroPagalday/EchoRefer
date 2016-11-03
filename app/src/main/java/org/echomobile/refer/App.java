@@ -1,11 +1,7 @@
 package org.echomobile.refer;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
@@ -24,7 +20,8 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import org.echomobile.refer.helper.DatabaseHelper;
 import org.echomobile.refer.objects.Client;
-import org.echomobile.refer.receivers.BootReceiver;
+
+import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -99,7 +96,7 @@ public class App extends MultiDexApplication {
 	}
 
 	public void logout() {
-		TPref.setStringPreference(this, TPref.LOGGED_UID, null);
+		TPref.setStringPreference(this, TPref.KEY_IS_LOGGED_IN, null);
 		client = null;
 	}
 
