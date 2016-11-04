@@ -54,14 +54,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         app = App.getInstance();
+        TPref pref;
 
 
         TPref.loadPreferences(app);
-        if (app.client == null) {
-            Intent i = new Intent(this, AuthenticateActivity.class);
+        pref=new TPref(this);
+        if(!pref.isLoggedIn()){
+            Intent intent =new Intent(MainActivity.this, AuthenticateActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
             finish();
-            startActivity(i);
-            return;
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

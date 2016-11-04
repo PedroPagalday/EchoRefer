@@ -41,8 +41,8 @@ public class AuthenticateActivity extends AppCompatActivity {
 
     //Permission Request SMS
 
-    public static final int REQUEST_CODE_FOR_SMS=1;
-    public static final int REQUEST_IMEI=2;
+
+    public static final int REQUEST_IMEI=1;
 
     private TPref pref;
 
@@ -69,11 +69,21 @@ public class AuthenticateActivity extends AppCompatActivity {
             public void onClick(View view) {
                 phone = login_et.getText().toString();
                 validateForm(phone);
-                checkSMSpermission();
+
+                //Check if IMEI permissions have been granted before:
+                int permissionCheck = ContextCompat.checkSelfPermission(AuthenticateActivity.this,
+                        Manifest.permission.READ_PHONE_STATE);
+                if (permissionCheck==PackageManager.PERMISSION_GRANTED){
+                    imei=getDeviceImei();
+                    Intent intent= new Intent (AuthenticateActivity.this, OTPValidation.class);
+                    intent.putExtra("phone", phone);
+                    intent.putExtra("imei",imei);
+                    startActivity(intent);
+                } else{
                 checkIMEIpermission();
                 Intent intent= new Intent (AuthenticateActivity.this, OTPValidation.class);
                 intent.putExtra("phone", phone);
-                startActivity(intent);
+                startActivity(intent);}
 
 
             }
@@ -85,9 +95,7 @@ public class AuthenticateActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        if(pref.isWaitingForSms()){
 
-        }
 
 
 
@@ -110,57 +118,9 @@ public class AuthenticateActivity extends AppCompatActivity {
         if (phone.matches("[a-zA-Z.?]*")) {
             login_et.setError("Letters are not allowed");
         }
-        if (phone.indexOf("@") == -1 && phone.startsWith("07")) phone = phone.replace("07", "2547");
-        /*if(ok){
-            validatePhone();}*/
+        if (phone.contains("@")  && phone.startsWith("07")) phone=phone.replace("07", "2547");
+        }
 
-    }
-
-
-
-     /*   SmsReceiver.bindListener(new SmsListener() {
-            @Override
-            public void messageReceived(String messageText) {
-                Log.d("Text",messageText);
-                String otpNumber= messageText.replaceAll("[^0-9]", "");
-                boolean permit= checkIMEIpermission();
-                if(permit) {
-                    verify_otp(otpNumber);
-                }
-            }
-
-        });*/
-     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-     public boolean checkSMSpermission()
-     {
-         int currentAPIVersion = Build.VERSION.SDK_INT;
-         if(currentAPIVersion>=android.os.Build.VERSION_CODES.M)
-         {
-             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
-                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_SMS)) {
-                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-                     alertBuilder.setCancelable(true);
-                     alertBuilder.setTitle("Permission necessary");
-                     alertBuilder.setMessage("Read SMS permission is necessary to verify your number, only the message with authentication code will be read");
-                     alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-                         public void onClick(DialogInterface dialog, int which) {
-                             ActivityCompat.requestPermissions((Activity)context, new String[]{android.Manifest.permission.READ_SMS}, REQUEST_CODE_FOR_SMS);
-                         }
-                     });
-                     AlertDialog alert = alertBuilder.create();
-                     alert.show();
-                 } else {
-                     ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_SMS}, REQUEST_CODE_FOR_SMS);
-                 }
-                 return false;
-             } else {
-                 return true;
-             }
-         } else {
-             return true;
-         }
-     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public boolean checkIMEIpermission()
@@ -169,7 +129,7 @@ public class AuthenticateActivity extends AppCompatActivity {
         if(currentAPIVersion>=android.os.Build.VERSION_CODES.M)
         {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) this, android.Manifest.permission.READ_PHONE_STATE)) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale( this, android.Manifest.permission.READ_PHONE_STATE)) {
                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
                     alertBuilder.setCancelable(true);
                     alertBuilder.setTitle("Permission necessary");
@@ -177,13 +137,13 @@ public class AuthenticateActivity extends AppCompatActivity {
                     alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                         public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions((Activity)context, new String[]{android.Manifest.permission.READ_PHONE_STATE}, REQUEST_CODE_FOR_SMS);
+                            ActivityCompat.requestPermissions((Activity)context, new String[]{android.Manifest.permission.READ_PHONE_STATE}, REQUEST_IMEI);
                         }
                     });
                     AlertDialog alert = alertBuilder.create();
                     alert.show();
                 } else {
-                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_PHONE_STATE}, REQUEST_CODE_FOR_SMS);
+                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_PHONE_STATE}, REQUEST_IMEI);
                 }
                 return false;
             } else {
@@ -203,32 +163,17 @@ public class AuthenticateActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_CODE_FOR_SMS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        checkIMEIpermission();
-
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Intent intent =new Intent(AuthenticateActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-                return;
-            }
-
             case REQUEST_IMEI:{
                 if (grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                     imei=getDeviceImei();
-                    Intent intent =new Intent(AuthenticateActivity.this, MainActivity.class);
+                    Intent intent =new Intent(AuthenticateActivity.this, OTPValidation.class);
                     Bundle extras = new Bundle();
-                    extras.putString("imei","imei");
-                    extras.putString("phone","phone");
+                    extras.putString("imei",imei);
+                    extras.putString("phone",phone);
                     intent.putExtras(extras);
                     startActivity(intent);
+                }else{
+
                 }
             }
             // other 'case' lines to check for other

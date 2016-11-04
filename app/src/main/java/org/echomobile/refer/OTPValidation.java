@@ -1,6 +1,7 @@
 package org.echomobile.refer;
 
 import android.*;
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -41,7 +42,7 @@ public class OTPValidation extends Activity implements View.OnClickListener {
     Context context;
     TelephonyManager mTelephonyManager;
     App app;
-    SmsReceiver mSmsReceiver;
+
 
 
     TPref pref;
@@ -55,7 +56,7 @@ public class OTPValidation extends Activity implements View.OnClickListener {
     //Permission Request SMS
 
     public static final int REQUEST_CODE_FOR_SMS=1;
-    public static final int REQUEST_IMEI=2;
+
 
 
     @Override
@@ -67,23 +68,30 @@ public class OTPValidation extends Activity implements View.OnClickListener {
             phone = extras.getString("phone");
             imei=extras.getString("imei");
         }
-        //Register SMS Receiver
-        registerReceiver(smsReceiver,new IntentFilter("SmsReceiver"));
+
         setContentView(R.layout.activity_otpvalidation);
         et_otp=(EditText)findViewById(R.id.et_otp);
         otpBtn=(Button)findViewById(R.id.otpBtn);
-        validatePhone(phone);
-
         otpBtn.setOnClickListener(this);
+        validatePhone(phone);
+        int permissionCheck = ContextCompat.checkSelfPermission(OTPValidation.this,
+                Manifest.permission.SEND_SMS);
+        if(permissionCheck==PackageManager.PERMISSION_GRANTED) {
+            //Register SMS Receiver
+            registerReceiver(smsReceiver, new IntentFilter("SmsReceiver"));
+        }
+        else{
+        checkSMSpermission();
+        }
     }
 
-    BroadcastReceiver smsReceiver=new BroadcastReceiver() {
+    BroadcastReceiver mSmsReceiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle b=intent.getExtras();
             String otp=b.getString("otp");
             Log.e("otpreceived",""+otp);
-            //verify_otp();
+            serverOtpCall(otp);
 
         }
     };
@@ -116,9 +124,10 @@ public class OTPValidation extends Activity implements View.OnClickListener {
         String otp= et_otp.getText().toString().trim();
         serverOtpCall(otp);
         if(!otp.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please enter the OTP", Toast.LENGTH_SHORT).show();
+            serverOtpCall(otp);
 
-        } else{serverOtpCall(otp);}
+
+        } else{Toast.makeText(getApplicationContext(), "Please enter the OTP", Toast.LENGTH_SHORT).show();}
 
     }
     public void serverOtpCall (String otp){
@@ -147,7 +156,16 @@ public class OTPValidation extends Activity implements View.OnClickListener {
 
     }
 
+    BroadcastReceiver smsReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle b=intent.getExtras();
+            String otp=b.getString("otp");
+            Log.e("otpreceived",""+otp);
+            serverOtpCall(otp);
 
+        }
+    };
     public void login(String token, String imei) {
         pref.createLogin(phone, token,imei);
       //  client.SaveToDB(this, app.dbHelper);
@@ -159,28 +177,70 @@ public class OTPValidation extends Activity implements View.OnClickListener {
     }
 
 
-    public void showAbout() {
-        String message = getText(R.string.about_detail).toString();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("About Echo Refer")
-                .setMessage(message)
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .setCancelable(true)
-                .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-
 
     @Override
     public void onClick(View v) {
         verify_otp();
 
     }
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public boolean checkSMSpermission()
+    {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if(currentAPIVersion>=android.os.Build.VERSION_CODES.M)
+        {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_SMS)) {
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                    alertBuilder.setCancelable(true);
+                    alertBuilder.setTitle("Permission necessary");
+                    alertBuilder.setMessage("Read SMS permission is necessary to verify your number, only the message with authentication code will be read");
+                    alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions((Activity)context, new String[]{android.Manifest.permission.READ_SMS}, REQUEST_CODE_FOR_SMS);
+                        }
+                    });
+                    AlertDialog alert = alertBuilder.create();
+                    alert.show();
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_SMS}, REQUEST_CODE_FOR_SMS);
+                }
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_FOR_SMS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Intent intent =new Intent(OTPValidation.this, MainActivity.class);
+                    startActivity(intent);
+
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    verify_otp();
+                    Intent intent =new Intent(OTPValidation.this, MainActivity.class);
+                    startActivity(intent);
+                }
+
+            }
+
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
 }

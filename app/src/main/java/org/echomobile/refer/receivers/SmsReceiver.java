@@ -15,7 +15,6 @@ import org.echomobile.refer.AuthenticateActivity;
 import org.echomobile.refer.Constants;
 import org.echomobile.refer.Listener.SmsListener;
 import org.echomobile.refer.Manifest;
-import org.echomobile.refer.service.HttpService;
 
 /**
  * Created by Pedro on 01/11/2016.
@@ -59,8 +58,8 @@ public class SmsReceiver extends BroadcastReceiver {
     // Get the OTP from the sms body
     private String getVerificationCode (String message){
 
-        String code = message.replaceAll("[^\\d.]", "");
-        return code;
+        return message.replaceAll("[^\\d.]", "");
+
     }
 
 
